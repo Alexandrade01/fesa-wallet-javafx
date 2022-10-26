@@ -1,0 +1,11 @@
+create database fesawallet;
+use fesawallet;
+
+create table usuario (
+id int(11) NOT NULL AUTO_INCREMENT,
+CPF varchar(14) NOT NULL,
+nome varchar(100) NOT NULL,
+sobrenome varchar(100) NOT NULL,
+usuario varchar(100) NOT NULL,
+senha varchar(100) NOT NULL	
+);

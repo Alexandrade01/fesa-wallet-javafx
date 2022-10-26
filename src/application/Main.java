@@ -17,7 +17,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fesa_wallet/view/MainView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fesawallet/UsuarioLoginView.fxml"));
 			AnchorPane anchorPane = loader.load();		
 			
 			Scene mainScene = new Scene(anchorPane);
