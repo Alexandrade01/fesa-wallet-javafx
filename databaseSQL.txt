@@ -1,11 +1,23 @@
-create database fesawallet;
-use fesawallet;
+CREATE TABLE familia (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  Name varchar(60) DEFAULT NULL,
+  PRIMARY KEY (Id)
+);
 
-create table usuario (
+CREATE TABLE usuario (
 id int(11) NOT NULL AUTO_INCREMENT,
 CPF varchar(14) NOT NULL,
 nome varchar(100) NOT NULL,
 sobrenome varchar(100) NOT NULL,
 usuario varchar(100) NOT NULL,
-senha varchar(100) NOT NULL	
+senha varchar(100) NOT NULL,
+saldo double NOT NULL,
+familiaId int(11),
+PRIMARY KEY (id),
+FOREIGN KEY (familiaId) REFERENCES familia (Id)
 );
+
+INSERT INTO familia (name) VALUES ('Andrade');
+
+INSERT INTO usuario (cpf, nome, sobrenome, usuario, senha, familiaId)
+VALUES ('455.160.818.33','Ale','Andrade','ale90','senha',1000,1);

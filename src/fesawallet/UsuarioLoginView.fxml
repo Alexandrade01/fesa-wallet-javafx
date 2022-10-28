@@ -19,7 +19,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Cadastro">
             <items>
-              <MenuItem mnemonicParsing="false" text="Individual" />
+              <MenuItem fx:id="btCadastroUsuario" mnemonicParsing="false" onAction="#onBtNewUser" text="Individual" />
                   <MenuItem mnemonicParsing="false" text="Familiar" />
             </items>
           </Menu>

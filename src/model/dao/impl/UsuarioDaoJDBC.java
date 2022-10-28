@@ -10,7 +10,7 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import model.dao.UsuarioDao;
-import model.entities.PlanoFamilia;
+import model.entities.Familia;
 import model.entities.Usuario;
 
 public class UsuarioDaoJDBC implements UsuarioDao {
@@ -23,7 +23,44 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 	@Override
 	public void insert(Usuario obj) {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"INSERT INTO usuario "
+					+ "(cpf, nome, sobrenome, usuario, senha, saldo, familiaId) "
+					+ "VALUES "
+					+ "(?, ?, ?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			st.setString(1, obj.getCPF());
+			st.setString(2, obj.getNome());
+			st.setString(3, obj.getSobrenome());
+			st.setString(4, obj.getUsuario());
+			st.setString(5, obj.getSenha());
+			st.setDouble(6, obj.getSaldo());
+			st.setInt(7, 1);
+			
+			int rowsAffected = st.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+				DB.closeResultSet(rs);
+			}
+			else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 
 	}
 
@@ -83,8 +120,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 									rs.getString("nome"), 
 									rs.getString("sobrenome"), 
 									rs.getString("usuario"), 
-									rs.getString("senha"), 
-									new PlanoFamilia());
+									rs.getString("senha"),
+									rs.getDouble("saldo"),
+									new Familia()
+									);
 		return user;
 	}
 

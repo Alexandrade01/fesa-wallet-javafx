@@ -3,7 +3,7 @@ package model.entities;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
@@ -12,10 +12,16 @@ public class Usuario implements Serializable {
 	private String sobrenome;
 	private String usuario;
 	private String senha;
-	private PlanoFamilia planoFamilia;
+	private Double saldo;
 	
-	public Usuario(Integer id, String cPF, String nome, String sobrenome, String usuario, String senha,
-			PlanoFamilia planoFamilia) {
+	private Familia planoFamilia;
+	
+	public Usuario() {
+		super();
+	}
+
+	public Usuario(Integer id, String cPF, String nome, String sobrenome, String usuario, String senha,Double saldo,
+			Familia planoFamilia ) {
 		super();
 		this.id = id;
 		CPF = cPF;
@@ -23,7 +29,18 @@ public class Usuario implements Serializable {
 		this.sobrenome = sobrenome;
 		this.usuario = usuario;
 		this.senha = senha;
+		this.saldo = saldo;
+		
 		this.planoFamilia = planoFamilia;
+		
+	}
+	
+	public Double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
 	}
 
 	public Integer getId() {
@@ -74,11 +91,11 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 	}
 
-	public PlanoFamilia getPlanoFamilia() {
+	public Familia getPlanoFamilia() {
 		return planoFamilia;
 	}
 
-	public void setPlanoFamilia(PlanoFamilia planoFamilia) {
+	public void setPlanoFamilia(Familia planoFamilia) {
 		this.planoFamilia = planoFamilia;
 	}
 	

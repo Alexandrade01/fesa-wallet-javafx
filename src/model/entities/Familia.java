@@ -1,5 +1,5 @@
 package model.entities;
 
-public class PlanoFamilia {
+public class Familia {
 
 }

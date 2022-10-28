@@ -4,7 +4,7 @@ import model.dao.DaoFactory;
 import model.dao.UsuarioDao;
 import model.entities.Usuario;
 
-public class UsuarioLoginService {
+public class UsuarioService {
 	
 	private UsuarioDao dao = DaoFactory.createUsuarioDao();
 	
@@ -12,5 +12,14 @@ public class UsuarioLoginService {
 		
 		return dao.findByUsuarioSenha(user, senha);
 	};
+	
+	public void saveOrUpdate(Usuario obj) {
+
+		if (obj.getId() == null) {
+			dao.insert(obj);
+		} else {
+			dao.update(obj);
+		}
+	}
 
 }

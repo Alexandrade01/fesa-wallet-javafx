@@ -5,24 +5,26 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fesa_wallet.util.Alerts;
+import fesa_wallet.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.entities.Usuario;
-import model.service.UsuarioLoginService;
+import model.service.UsuarioService;
 
 public class UsuarioLoginController implements Initializable {
 
 	private Usuario user;
-	private UsuarioLoginService service = new UsuarioLoginService();
+	private UsuarioService service = new UsuarioService();
 
 	@FXML
 	private TextField txtUsuario;
@@ -34,34 +36,70 @@ public class UsuarioLoginController implements Initializable {
 	private Button btEntrar;
 
 	@FXML
+	private MenuItem menuItemCadastroUsuario;
+
+	@FXML
 	public void onBtFindUserAction(ActionEvent event) {
 
 		user = service.findUser(txtUsuario.getText(), txtSenha.getText());
 		if (user == null) {
 
-			Alerts.showAlert("Usuario não encontrado ! ", null, "usuario nao encontrado message", AlertType.ERROR);
-
+			Alerts.showAlert("Acesso não permitido ", null, "usuario e/ou senha não foram encontrado(s)",
+					AlertType.ERROR);
 		} else {
 
-			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/fesawallet/MainView.fxml"));
-				AnchorPane anchorPane = loader.load();
-				Scene mainScene = new Scene(anchorPane);
-				Stage primaryStage = new Stage();
-				primaryStage.setScene(mainScene);
-				primaryStage.setResizable(false);
-				primaryStage.setTitle("Fesa Wallet");
-				primaryStage.show();
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Utils.currentStage(event).close();
+			createDialogForm(null, "/fesawallet/MainView.fxml", new Stage());
+
 		}
 	}
 
+	@FXML
+	void onBtNewUser(ActionEvent event) {
+
+		Usuario obj = new Usuario();
+
+		createDialogForm(obj, "/fesawallet/UsuarioForm.fxml", new Stage());
+	
+
+	}
+
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL uri, ResourceBundle rb) {
 		// TODO Auto-generated method stub
+
+	}
+
+	private void createDialogForm(Usuario obj, String absoluteName, Stage parentStage) {
+
+		try {
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+
+			AnchorPane anchorPane = loader.load();
+			
+			
+			//injeção de dependencia, nao se pode instanciar na propria classe segundo normas do patterns
+			UsuarioCadastroFormController usuarioCadastroFormController = loader.getController();
+			usuarioCadastroFormController.setUsuario(obj);
+			usuarioCadastroFormController.setServices(new UsuarioService());
+			
+			Scene mainScene = new Scene(anchorPane);
+			
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(mainScene);
+			primaryStage.setResizable(false);
+			primaryStage.setTitle("Fesa Wallet");
+			primaryStage.initModality(Modality.APPLICATION_MODAL);
+			primaryStage.showAndWait();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+			Alerts.showAlert("Io Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
+
+		}
 
 	}
 
