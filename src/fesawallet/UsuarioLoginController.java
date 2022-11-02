@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Usuario;
@@ -49,7 +50,7 @@ public class UsuarioLoginController implements Initializable {
 		} else {
 
 			Utils.currentStage(event).close();
-			createDialogForm(null, "/fesawallet/MainView.fxml", new Stage());
+			createDialogForm(user, "/fesawallet/MainView.fxml", new Stage());
 
 		}
 	}
@@ -76,15 +77,9 @@ public class UsuarioLoginController implements Initializable {
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 
-			AnchorPane anchorPane = loader.load();
+			Pane pane = loader.load();
 			
-			
-			//injeção de dependencia, nao se pode instanciar na propria classe segundo normas do patterns
-			UsuarioCadastroFormController usuarioCadastroFormController = loader.getController();
-			usuarioCadastroFormController.setUsuario(obj);
-			usuarioCadastroFormController.setServices(new UsuarioService());
-			
-			Scene mainScene = new Scene(anchorPane);
+			Scene mainScene = new Scene(pane);
 			
 			Stage primaryStage = new Stage();
 			primaryStage.setScene(mainScene);
