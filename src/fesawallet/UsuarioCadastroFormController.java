@@ -1,5 +1,6 @@
 package fesawallet;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -11,8 +12,13 @@ import fesa_wallet.util.Util;
 import fesa_wallet.util.ValidationUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -39,9 +45,15 @@ public class UsuarioCadastroFormController implements Initializable {
 
 	@FXML
 	private TextField txtSenha;
-
+	
+	@FXML
+	private TextField txtRepeticaoSenha;
+	
 	@FXML
 	private Button btSave;
+	
+	@FXML
+	private Button btHelpSenha;
 
 	@FXML
 	private Button btCancel;
@@ -57,6 +69,9 @@ public class UsuarioCadastroFormController implements Initializable {
 
 	@FXML
 	private Label labelErrorSenha;
+	
+	@FXML
+	private Label labelErrorRepeticaoSenha;
 
 	public void setServices(UsuarioService service) {
 
@@ -78,15 +93,21 @@ public class UsuarioCadastroFormController implements Initializable {
 	public void onBtSaveAction(ActionEvent event) {
 
 		try {
+			usuarioService = new UsuarioService();
 			entity = new Usuario();
 			entity = getFormData();
-			usuarioService = new UsuarioService();
-			usuarioService.saveOrUpdate(entity);
-			clearFields();
-			clearErrors();
-			AlertUtil.showAlert("Cadastro feito", "Sucesso ! ", null, AlertType.INFORMATION);
-			
-			
+			if(usuarioService.findUserByEmail(txtEmail.getText())  != null) {
+				
+				AlertUtil.showAlert("Email já cadastrado !", "Falha no cadastro ! ", "Error", AlertType.ERROR);
+			}
+			else {
+				
+				usuarioService.saveOrUpdate(entity);
+				clearFields();
+				clearErrors();
+				AlertUtil.showAlert("Cadastro feito", "Sucesso ! ", null, AlertType.INFORMATION);
+			}
+
 		} catch (ValidationException e) {
 
 			setErrorMessages(e.getErrors());
@@ -95,6 +116,29 @@ public class UsuarioCadastroFormController implements Initializable {
 		catch (DbException e) {
 
 			AlertUtil.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
+		}
+	}
+	
+	@FXML
+	public void onBtHelpSenhaAction(ActionEvent event) {
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fesawallet/HelpSenha.fxml"));
+
+		try {
+			Pane pane = loader.load();
+			
+			Scene mainScene = new Scene(pane);
+			
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(mainScene);
+			primaryStage.setResizable(false);
+			primaryStage.setTitle("Fesa Wallet");
+			primaryStage.initModality(Modality.APPLICATION_MODAL);
+			primaryStage.show();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -106,13 +150,13 @@ public class UsuarioCadastroFormController implements Initializable {
 
 		// Validacao nome
 		if (txtNome.getText() == null || txtNome.getText().trim().equals("") || !ValidationUtil.validacaoTamanho(txtNome.getText())) {
-			validationException.addError("nome", "O nome precisa de dois ou mais caracteres alfa !");
+			validationException.addError("nome", "O nome esta invalido !");
 		}
 		obj.setNome(txtNome.getText());
 
 		// Validacao sobrenome
 		if (txtSobrenome.getText() == null || txtSobrenome.getText().trim().equals("") ||  !ValidationUtil.validacaoTamanho(txtSobrenome.getText())) {
-			validationException.addError("sobrenome", "O sobrenome precisa de dois ou mais caracteres alfa !");
+			validationException.addError("sobrenome", "O sobrenome esta invalido !");
 		}
 		obj.setSobrenome(txtSobrenome.getText());
 
@@ -124,8 +168,15 @@ public class UsuarioCadastroFormController implements Initializable {
 
 		// Validacao senha
 		if (txtSenha.getText() == null || txtSenha.getText().trim().equals("") || !ValidationUtil.validacaoSenha(txtSenha.getText())) {
-			validationException.addError("senha", "A senha precisa de 6 caracteres, sendo 1 maiusculo, 1 minusculo, 1 caracter especial, 1 número !");
+			validationException.addError("senha", "A senha esta invalida !");
 		}
+		
+		if(!txtSenha.getText().equals(txtRepeticaoSenha.getText())){ 
+			
+			validationException.addError("senhaRepetida", "As senhas estão incompativeis !");
+			
+		}
+		
 		obj.setSenha(txtSenha.getText());
 
 		if (validationException.getErrors().size() > 0) {
@@ -142,6 +193,7 @@ public class UsuarioCadastroFormController implements Initializable {
 		txtSobrenome.clear();
 		txtEmail.clear();
 		txtSenha.clear();
+		txtRepeticaoSenha.clear();
 	}
 	
 	private void clearErrors() {
@@ -150,6 +202,8 @@ public class UsuarioCadastroFormController implements Initializable {
 		labelErrorSobrenome.setText("");
 		labelErrorEmail.setText("");
 		labelErrorSenha.setText("");
+		labelErrorRepeticaoSenha.setText("");
+
 
 	}
 
@@ -169,7 +223,7 @@ public class UsuarioCadastroFormController implements Initializable {
 		labelErrorSobrenome.setText(fields.contains("sobrenome") ? errors.get("sobrenome") : "");
 		labelErrorEmail.setText(fields.contains("email") ? errors.get("email") : "");
 		labelErrorSenha.setText(fields.contains("senha") ? errors.get("senha") : "");
-
+		labelErrorRepeticaoSenha.setText(fields.contains("senhaRepetida") ? errors.get("senhaRepetida") : "");
 		
 	}
 

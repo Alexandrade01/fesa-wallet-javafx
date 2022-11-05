@@ -8,7 +8,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 public  class ValidationUtil {
 
 	public static boolean validacaoTamanho(String text) {
-		return text.length() > 2;
+		return text.length() >= 2;
 	}
 	
 	public static boolean validacaoEmail(String text) {

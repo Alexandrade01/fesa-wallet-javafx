@@ -109,6 +109,36 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 	
+	@Override
+	public Usuario findByEmail(String email) {
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			st = conn.prepareStatement(
+					"SELECT usuario.* " + "from usuario " + 
+			"WHERE usuario.email = ?");
+			
+			st.setString(1, email);
+			
+			rs = st.executeQuery();
+			
+			if(rs.next()) {
+				
+				Usuario usuario = instantiateUsuario(rs);
+				return usuario;
+			}
+			
+			return null;
+			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
+	}
+	
 	private Usuario instantiateUsuario(ResultSet rs) throws SQLException {
 		
 		Usuario user = new Usuario(rs.getInt("id"), 

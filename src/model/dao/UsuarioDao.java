@@ -13,7 +13,11 @@ public interface UsuarioDao {
 	void deleteById(Integer id);
 
 	Usuario findByEmailSenha(String user, String senha);
+	
+	Usuario findByEmail(String email);
 
 	List<Usuario> findAll();
+
+	
 
 }
