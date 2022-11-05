@@ -7,40 +7,22 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private String CPF;
 	private String nome;
 	private String sobrenome;
-	private String usuario;
+	private String email;
 	private String senha;
-	private Double saldo;
-	
-	private Familia planoFamilia;
-	
+
 	public Usuario() {
 		super();
 	}
 
-	public Usuario(Integer id, String cPF, String nome, String sobrenome, String usuario, String senha,Double saldo,
-			Familia planoFamilia ) {
+	public Usuario(Integer id, String nome, String sobrenome, String email, String senha) {
 		super();
 		this.id = id;
-		CPF = cPF;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
-		this.usuario = usuario;
+		this.email = email;
 		this.senha = senha;
-		this.saldo = saldo;
-		
-		this.planoFamilia = planoFamilia;
-		
-	}
-	
-	public Double getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(Double saldo) {
-		this.saldo = saldo;
 	}
 
 	public Integer getId() {
@@ -49,14 +31,6 @@ public class Usuario implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getCPF() {
-		return CPF;
-	}
-
-	public void setCPF(String cPF) {
-		CPF = cPF;
 	}
 
 	public String getNome() {
@@ -75,12 +49,12 @@ public class Usuario implements Serializable {
 		this.sobrenome = sobrenome;
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSenha() {
@@ -90,15 +64,5 @@ public class Usuario implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	public Familia getPlanoFamilia() {
-		return planoFamilia;
-	}
-
-	public void setPlanoFamilia(Familia planoFamilia) {
-		this.planoFamilia = planoFamilia;
-	}
-	
-	
 
 }

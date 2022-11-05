@@ -10,7 +10,6 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import model.dao.UsuarioDao;
-import model.entities.Familia;
 import model.entities.Usuario;
 
 public class UsuarioDaoJDBC implements UsuarioDao {
@@ -28,18 +27,15 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 			st = conn.prepareStatement(
 					"INSERT INTO usuario "
-					+ "(cpf, nome, sobrenome, usuario, senha, saldo, familiaId) "
+					+ "(nome, sobrenome, email, senha) "
 					+ "VALUES "
-					+ "(?, ?, ?, ?, ?, ?, ?)",
+					+ "(?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			
-			st.setString(1, obj.getCPF());
-			st.setString(2, obj.getNome());
-			st.setString(3, obj.getSobrenome());
-			st.setString(4, obj.getUsuario());
-			st.setString(5, obj.getSenha());
-			st.setDouble(6, obj.getSaldo());
-			st.setInt(7, 1);
+			st.setString(1, obj.getNome());
+			st.setString(2, obj.getSobrenome());
+			st.setString(3, obj.getEmail());
+			st.setString(4, obj.getSenha());
 			
 			int rowsAffected = st.executeUpdate();
 			
@@ -83,7 +79,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public Usuario findByUsuarioSenha(String user, String senha) {
+	public Usuario findByEmailSenha(String email, String senha) {
 		
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -91,9 +87,9 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 			st = conn.prepareStatement(
 					"SELECT usuario.* " + "from usuario " + 
-			"WHERE usuario.usuario = ? AND usuario.senha = ? ");
+			"WHERE usuario.email = ? AND usuario.senha = ? ");
 			
-			st.setString(1, user);
+			st.setString(1, email);
 			st.setString(2, senha);
 			
 			rs = st.executeQuery();
@@ -116,13 +112,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	private Usuario instantiateUsuario(ResultSet rs) throws SQLException {
 		
 		Usuario user = new Usuario(rs.getInt("id"), 
-									rs.getString("CPF"),
 									rs.getString("nome"), 
 									rs.getString("sobrenome"), 
-									rs.getString("usuario"), 
-									rs.getString("senha"),
-									rs.getDouble("saldo"),
-									new Familia()
+									rs.getString("email"), 
+									rs.getString("senha")
 									);
 		return user;
 	}

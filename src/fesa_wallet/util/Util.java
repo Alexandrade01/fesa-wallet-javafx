@@ -15,7 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-public class Utils {
+public class Util {
 
 	public static Stage currentStage(ActionEvent event) {
 

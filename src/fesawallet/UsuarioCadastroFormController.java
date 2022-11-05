@@ -6,8 +6,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import db.DbException;
-import fesa_wallet.util.Alerts;
-import fesa_wallet.util.Utils;
+import fesa_wallet.util.AlertUtil;
+import fesa_wallet.util.Util;
+import fesa_wallet.util.ValidationUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,25 +29,16 @@ public class UsuarioCadastroFormController implements Initializable {
 	ValidationException validationException;
 
 	@FXML
-	private TextField txtId;
-
-	@FXML
-	private TextField txtCPF;
-
-	@FXML
 	private TextField txtNome;
 
 	@FXML
 	private TextField txtSobrenome;
 
 	@FXML
-	private TextField txtUsuario;
+	private TextField txtEmail;
 
 	@FXML
 	private TextField txtSenha;
-
-	@FXML
-	private TextField txtSaldo;
 
 	@FXML
 	private Button btSave;
@@ -55,22 +47,16 @@ public class UsuarioCadastroFormController implements Initializable {
 	private Button btCancel;
 
 	@FXML
-	private Label labelErrorCPF;
-
-	@FXML
 	private Label labelErrorNome;
 
 	@FXML
 	private Label labelErrorSobrenome;
 
 	@FXML
-	private Label labelErrorUsuario;
+	private Label labelErrorEmail;
 
 	@FXML
 	private Label labelErrorSenha;
-
-	@FXML
-	private Label labelErrorSaldo;
 
 	public void setServices(UsuarioService service) {
 
@@ -91,20 +77,14 @@ public class UsuarioCadastroFormController implements Initializable {
 	@FXML
 	public void onBtSaveAction(ActionEvent event) {
 
-		if (entity == null) {
-			throw new IllegalStateException();
-		}
-
-		if (usuarioService == null) {
-			throw new IllegalStateException();
-		}
-
 		try {
+			entity = new Usuario();
 			entity = getFormData();
+			usuarioService = new UsuarioService();
 			usuarioService.saveOrUpdate(entity);
 			clearFields();
 			clearErrors();
-			Alerts.showAlert("Cadastro feito", "Sucesso ! ", null, AlertType.INFORMATION);
+			AlertUtil.showAlert("Cadastro feito", "Sucesso ! ", null, AlertType.INFORMATION);
 			
 			
 		} catch (ValidationException e) {
@@ -114,7 +94,7 @@ public class UsuarioCadastroFormController implements Initializable {
 
 		catch (DbException e) {
 
-			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
+			AlertUtil.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
 
@@ -124,47 +104,29 @@ public class UsuarioCadastroFormController implements Initializable {
 		
 		validationException = new ValidationException("Validation error");
 
-		// Validacao ID
-		obj.setId(Utils.tryParseToInt(txtId.getText()));
-
-		// Validacao CPF
-		if (txtCPF.getText() == null || txtCPF.getText().trim().equals("")) {
-			validationException.addError("CPF", "O campo não pode ser vazio ! ");
-		}
-		obj.setCPF(txtCPF.getText());
-
 		// Validacao nome
-		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
-			validationException.addError("nome", "O campo não pode ser vazio ! ");
+		if (txtNome.getText() == null || txtNome.getText().trim().equals("") || !ValidationUtil.validacaoTamanho(txtNome.getText())) {
+			validationException.addError("nome", "O nome precisa de dois ou mais caracteres alfa !");
 		}
 		obj.setNome(txtNome.getText());
 
 		// Validacao sobrenome
-		if (txtSobrenome.getText() == null || txtSobrenome.getText().trim().equals("")) {
-			validationException.addError("sobrenome", "O campo não pode ser vazio ! ");
+		if (txtSobrenome.getText() == null || txtSobrenome.getText().trim().equals("") ||  !ValidationUtil.validacaoTamanho(txtSobrenome.getText())) {
+			validationException.addError("sobrenome", "O sobrenome precisa de dois ou mais caracteres alfa !");
 		}
 		obj.setSobrenome(txtSobrenome.getText());
 
-		// Validacao usuario
-		if (txtUsuario.getText() == null || txtUsuario.getText().trim().equals("")) {
-			validationException.addError("usuario", "O campo não pode ser vazio ! ");
+		// Validacao Email
+		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("") || !ValidationUtil.validacaoEmail(txtEmail.getText())) {
+			validationException.addError("email", "O email esta invalido !");
 		}
-		obj.setUsuario(txtUsuario.getText());
+		obj.setEmail(txtEmail.getText());
 
 		// Validacao senha
-		if (txtSenha.getText() == null || txtSenha.getText().trim().equals("")) {
-			validationException.addError("senha", "O campo não pode ser vazio ! ");
+		if (txtSenha.getText() == null || txtSenha.getText().trim().equals("") || !ValidationUtil.validacaoSenha(txtSenha.getText())) {
+			validationException.addError("senha", "A senha precisa de 6 caracteres, sendo 1 maiusculo, 1 minusculo, 1 caracter especial, 1 número !");
 		}
 		obj.setSenha(txtSenha.getText());
-
-		// inicialmente o plano familia sera vazio
-		obj.setPlanoFamilia(null);
-
-		// validacao saldo
-		if (txtSaldo.getText() == null || txtSaldo.getText().trim().equals("")) {
-			validationException.addError("saldo", "O campo não pode ser vazio ! ");
-		}
-		obj.setSaldo(Utils.tryParseToDouble(txtSaldo.getText()));
 
 		if (validationException.getErrors().size() > 0) {
 
@@ -176,30 +138,26 @@ public class UsuarioCadastroFormController implements Initializable {
 
 	private void clearFields() {
 
-		txtId.clear();
-		txtCPF.clear();
 		txtNome.clear();
 		txtSobrenome.clear();
-		txtUsuario.clear();
+		txtEmail.clear();
 		txtSenha.clear();
-		txtSaldo.clear();
 	}
 	
 	private void clearErrors() {
 		
-		labelErrorCPF.setText("");
 		labelErrorNome.setText("");
 		labelErrorSobrenome.setText("");
-		labelErrorUsuario.setText("");
+		labelErrorEmail.setText("");
 		labelErrorSenha.setText("");
-		labelErrorSaldo.setText("");
+
 	}
 
 
 	@FXML
 	public void onBtCancelAction(ActionEvent event) {
 
-		Utils.currentStage(event).close();
+		Util.currentStage(event).close();
 
 	}
 	
@@ -207,12 +165,11 @@ public class UsuarioCadastroFormController implements Initializable {
 
 		Set<String> fields = errors.keySet();
 		
-		labelErrorCPF.setText(fields.contains("CPF") ? errors.get("CPF"):"");
 		labelErrorNome.setText(fields.contains("nome") ? errors.get("nome") : "");
 		labelErrorSobrenome.setText(fields.contains("sobrenome") ? errors.get("sobrenome") : "");
-		labelErrorUsuario.setText(fields.contains("usuario") ? errors.get("usuario") : "");
+		labelErrorEmail.setText(fields.contains("email") ? errors.get("email") : "");
 		labelErrorSenha.setText(fields.contains("senha") ? errors.get("senha") : "");
-		labelErrorSaldo.setText(fields.contains("saldo") ? errors.get("saldo") : "");
+
 		
 	}
 

@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fesa_wallet.util.Alerts;
-import fesa_wallet.util.Utils;
+import fesa_wallet.util.AlertUtil;
+import fesa_wallet.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +28,7 @@ public class UsuarioLoginController implements Initializable {
 	private UsuarioService service = new UsuarioService();
 
 	@FXML
-	private TextField txtUsuario;
+	private TextField txtEmail;
 
 	@FXML
 	private TextField txtSenha;
@@ -42,14 +42,14 @@ public class UsuarioLoginController implements Initializable {
 	@FXML
 	public void onBtFindUserAction(ActionEvent event) {
 
-		user = service.findUser(txtUsuario.getText(), txtSenha.getText());
+		user = service.findUser(txtEmail.getText(), txtSenha.getText());
 		if (user == null) {
 
-			Alerts.showAlert("Acesso não permitido ", null, "usuario e/ou senha não foram encontrado(s)",
+			AlertUtil.showAlert("Acesso não permitido ", null, "usuario e/ou senha não foram encontrado(s)",
 					AlertType.ERROR);
 		} else {
 
-			Utils.currentStage(event).close();
+			Util.currentStage(event).close();
 			createDialogForm(user, "/fesawallet/MainView.fxml", new Stage());
 
 		}
@@ -92,7 +92,7 @@ public class UsuarioLoginController implements Initializable {
 
 			e.printStackTrace();
 
-			Alerts.showAlert("Io Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
+			AlertUtil.showAlert("Io Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 
 		}
 

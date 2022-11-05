@@ -2,7 +2,7 @@ package fesa_wallet.util;
 
 import javafx.scene.control.TextField;
 
-public class Constraints {
+public class ConstraintUtil {
 
 	public static void setTextFieldInteger(TextField txt) {
 		txt.textProperty().addListener((obs, oldValue, newValue) -> {

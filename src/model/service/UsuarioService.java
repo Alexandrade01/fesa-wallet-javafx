@@ -8,9 +8,9 @@ public class UsuarioService {
 	
 	private UsuarioDao dao = DaoFactory.createUsuarioDao();
 	
-	public Usuario findUser(String user, String senha) {
+	public Usuario findUser(String email, String senha) {
 		
-		return dao.findByUsuarioSenha(user, senha);
+		return dao.findByEmailSenha(email, senha);
 	};
 	
 	public void saveOrUpdate(Usuario obj) {

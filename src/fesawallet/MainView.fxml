@@ -1,26 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fesawallet.MainViewController">
    <children>
-      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="250.0">
+      <MenuBar layoutY="1.0" prefHeight="28.0" prefWidth="600.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Cadastro">
+          <Menu mnemonicParsing="false" text="Principal">
             <items>
-              <MenuItem mnemonicParsing="false" text="Individual" />
-                  <MenuItem mnemonicParsing="false" text="Familiar" />
+              <MenuItem fx:id="menuItemPerfil" mnemonicParsing="false" onAction="#onMenuItemPerfilAction" text="Meu Perfil" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Sobre">
+          <Menu mnemonicParsing="false" text="Meios de pagamento">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="menuItemCadastroMeiosDePagamento" mnemonicParsing="false" onAction="#onMenuItemCadastroMeiosAction" text="Meus meios de pagamento" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Transferência">
+               <items>
+                  <MenuItem fx:id="menuItemEntradas" mnemonicParsing="false" onAction="#onMenuItemEntradasAction" text="Entradas" />
+                  <MenuItem fx:id="menuItemSaidas" mnemonicParsing="false" onAction="#onMenuItemSaidasAction" text="Saidas" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Plano Familia">
+               <items>
+                  <MenuItem fx:id="menuItemPlanoFamiliaVisualizacao" mnemonicParsing="false" onAction="#onMenuItemVisualizacaoFamiliaAction" text="Meu plano familia" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Sobre" />
         </menus>
+         <effect>
+            <Lighting>
+               <light>
+                  <Light.Distant>
+                     <color>
+                        <Color red="0.5" green="0.6833333373069763" blue="1.0" />
+                     </color>
+                  </Light.Distant>
+               </light>
+               <bumpInput>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </bumpInput>
+            </Lighting>
+         </effect>
+         <padding>
+            <Insets left="80.0" />
+         </padding>
       </MenuBar>
    </children>
 </AnchorPane>
