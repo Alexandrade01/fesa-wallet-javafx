@@ -1,0 +1,1 @@
+Usuario(entity) -> UsuarioDao -> UsuarioDaoImpl -> DaoFactory -> UsuarioService -> UsuariLoginController -> UsuarioLoginView

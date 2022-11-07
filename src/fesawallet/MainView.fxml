@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fesawallet.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fesawallet.MainViewController">
    <children>
       <MenuBar layoutY="1.0" prefHeight="28.0" prefWidth="600.0">
         <menus>
           <Menu mnemonicParsing="false" text="Principal">
             <items>
-              <MenuItem fx:id="menuItemPerfil" mnemonicParsing="false" onAction="#onMenuItemPerfilAction" text="Meu Perfil" />
+              <MenuItem fx:id="menuItemPrincipal" mnemonicParsing="false" onAction="#onMenuPrincipalAction" text="Meu Perfil" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Meios de pagamento">
@@ -24,18 +24,18 @@
               <MenuItem fx:id="menuItemCadastroMeiosDePagamento" mnemonicParsing="false" onAction="#onMenuItemCadastroMeiosAction" text="Meus meios de pagamento" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Transferência">
+            <Menu mnemonicParsing="false" text="Transações">
                <items>
                   <MenuItem fx:id="menuItemEntradas" mnemonicParsing="false" onAction="#onMenuItemEntradasAction" text="Entradas" />
                   <MenuItem fx:id="menuItemSaidas" mnemonicParsing="false" onAction="#onMenuItemSaidasAction" text="Saidas" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Plano Familia">
+            <Menu fx:id="menuItemRelatorio" mnemonicParsing="false" onAction="#onMenuRelatorioAction" text="Relatórios" />
+            <Menu mnemonicParsing="false" text="Categorias">
                <items>
-                  <MenuItem fx:id="menuItemPlanoFamiliaVisualizacao" mnemonicParsing="false" onAction="#onMenuItemVisualizacaoFamiliaAction" text="Meu plano familia" />
+                  <MenuItem fx:id="menuItemCategorias" mnemonicParsing="false" onAction="#onMenuItemCategorias" text="Editar/criar categorias" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Sobre" />
         </menus>
          <effect>
             <Lighting>

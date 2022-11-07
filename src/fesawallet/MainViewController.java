@@ -12,7 +12,7 @@ import model.service.MeioPagamentoService;
 public class MainViewController implements Initializable {
 	
 	@FXML
-	private MenuItem menuItemPerfil;
+	private MenuItem menuItemPrincipal;
 	@FXML
 	private MenuItem menuItemCadastroMeiosDePagamento;
 	@FXML
@@ -20,10 +20,12 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemSaidas;
 	@FXML
-	private MenuItem menuItemPlanoFamiliaVisualizacao;
+	private MenuItem menuItemRelatorio;
+	@FXML
+	private MenuItem menuItemCategorias;
 	
 	@FXML
-	public void onMenuItemPerfilAction() {
+	public void onMenuPrincipalAction() {
 	}
 	
 	@FXML
@@ -51,6 +53,16 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemVisualizacaoFamiliaAction() {
+		
+	}
+	
+	@FXML
+	public void onMenuRelatorioAction() {
+		
+	}
+	
+	@FXML
+	public void onMenuItemCategorias() {
 		
 	}
 	

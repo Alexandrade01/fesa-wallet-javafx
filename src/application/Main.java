@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	private static Scene mainScene;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -18,8 +20,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fesawallet/UsuarioLoginView.fxml"));
-			AnchorPane anchorPane = loader.load();		
-			
+			AnchorPane anchorPane = loader.load();
+
 			Scene mainScene = new Scene(anchorPane);
 			primaryStage.setScene(mainScene);
 			primaryStage.setResizable(false);
@@ -28,5 +30,11 @@ public class Main extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static Scene getMainScene() {
+
+		return mainScene;
+
 	}
 }

@@ -9,12 +9,14 @@ public class MeioPagamento implements Serializable {
 	private Integer id;
 	private String descricao;
 	private Double saldo;
+	private Integer usuarioId;
 
-	public MeioPagamento(Integer id, String descricao, Double saldo) {
+	public MeioPagamento(Integer id, String descricao, Double saldo, Integer usuarioId) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 		this.saldo = saldo;
+		this.usuarioId = usuarioId;
 	}
 
 	public String getDescricao() {
@@ -39,6 +41,14 @@ public class MeioPagamento implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(Integer usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 }
